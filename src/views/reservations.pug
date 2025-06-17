@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  h1.mb-4 My Reservations
+  
+  a.btn.btn-primary.mb-3(href="/tables") Make a New Reservation
+
+  if reservations && reservations.length > 0
+    .row
+      each reservation in reservations
+        .col-md-4.mb-3
+          .card
+            .card-body
+              h5.card-title Reservation for Table #{reservation.table_id.table_number}
+              p.card-text
+                | Date: #{new Date(reservation.date).toLocaleDateString()}
+                br
+                | Time: #{reservation.date.toLocaleTimeString() }
+                br
+                | Guests: #{reservation.guests}
+              a.btn.btn-warning.me-2(href=`/reservations/edit/${reservation._id}`) Edit
+              button.btn.btn-danger.delete-btn(data-id=reservation._id) Cancel
+  else
+    p You have no reservations.
+
+  script.
+    // Handle delete button click
+    document.addEventListener('click', function(e) {
+      if (e.target.matches('.delete-btn')) {
+        e.preventDefault();
+        const id = e.target.getAttribute('data-id');
+        if (confirm('Are you sure you want to cancel this reservation?')) {
+          fetch(`/api/reservations/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin'
+          }).then(response => {
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              alert('An error occurred while deleting the reservation.');
+            }
+          });
+        }
+      }
+    });
