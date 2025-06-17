@@ -1,0 +1,60 @@
+extends layout
+
+block content
+  h1.mb-4 Edit Reservation
+  form(id="reservationForm" data-reservation-id=reservation._id)
+    .mb-3
+      label.form-label(for="table_id") Table
+      select#table_id.form-control(name="table_id" required)
+        each table in tables
+          option(value=table._id selected=(table._id.toString() === reservation.table_id._id.toString())) Table #{table.table_number} (Capacity: #{table.capacity})
+    
+    .mb-3
+      label.form-label(for="date") Date
+      input#date.form-control(type="date" name="date" required value=reservation.date.toISOString().split('T')[0])
+    
+    .mb-3
+      label.form-label(for="time") Time
+      input#time.form-control(type="time" name="time" required value=reservation.date.getHours().toString().padStart(2, '0') + ':' + reservation.date.getMinutes().toString().padStart(2, '0'))
+    
+    .mb-3
+      label.form-label(for="guests") Number of Guests
+      input#guests.form-control(type="number" name="guests" required min="1" value=reservation.guests)
+    
+    button.btn.btn-primary(type="submit") Update Reservation
+
+  a.btn.btn-secondary.mt-3(href="/reservations") Back to My Reservations
+  script.
+    // Handle form submission
+    document.querySelector('#reservationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const tableId = document.getElementById('table_id').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const guests = document.getElementById('guests').value;
+      
+      // Combine date and time
+      const dateTimeString = `${date}T${time}:00`;      // Get reservation ID from the data attribute
+      const reservationId = document.getElementById('reservationForm').dataset.reservationId;
+
+      // Send AJAX request to update reservation
+      fetch(`/api/reservations/${reservationId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          table_id: tableId,
+          date: dateTimeString,
+          guests: parseInt(guests, 10)
+        }),
+        credentials: 'same-origin'
+      }).then(response => {
+        if (response.ok) {
+          window.location.href = '/reservations';
+        } else {
+          alert('An error occurred while updating the reservation.');
+        }
+      });
+    });

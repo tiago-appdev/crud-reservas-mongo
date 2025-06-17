@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  h1.mb-4 Create Reservation
+
+  form#reservationForm(action="/api/reservations" method="POST")
+    .mb-3
+      label.form-label(for="table_id") Table
+      select#table_id.form-control(name="table_id" required)
+        each table in tables
+          option(value=table._id selected=(table._id.toString() === preselectedTable)) Table #{table.table_number} (Capacity: #{table.capacity})
+    
+    .mb-3
+      label.form-label(for="date") Date
+      input#date.form-control(type="date" name="date" required value=date)
+    
+    .mb-3
+      label.form-label(for="time") Time
+      input#time.form-control(type="time" name="time" required value=time)
+    
+    .mb-3
+      label.form-label(for="guests") Number of Guests
+      input#guests.form-control(type="number" name="guests" required min="1" value=party_size)
+    
+    button.btn.btn-primary(type="submit") Create Reservation
+
+  a.btn.btn-secondary.mt-3(href="/reservations") Back to My Reservations
+
+  script.
+    document.getElementById('reservationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      fetch('/api/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(this))),
+        credentials: 'same-origin'
+      }).then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            alert(data.message || 'Reserva creada con éxito.'); // Muestra el mensaje del backend
+            window.location.href = '/reservations';
+          });
+        } else {
+          response.json().then(data => {
+            alert(data.message || 'An error occurred while creating the reservation.');
+          });
+        }
+      });
+    });
