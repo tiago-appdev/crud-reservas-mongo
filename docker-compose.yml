@@ -36,10 +36,6 @@ services:
         reservations:
           cpus: '0.5'
           memory: 256M
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`${DOMAIN:-localhost}`)"
-      - "traefik.http.services.app.loadbalancer.server.port=3000"
 
   reservasdb:
     image: mongo:7-jammy
@@ -67,26 +63,6 @@ services:
         reservations:
           cpus: '0.5'
           memory: 512M
-
-  # Reverse proxy (optional)
-  traefik:
-    image: traefik:v3.0
-    container_name: traefik-prod
-    restart: unless-stopped
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080" # Traefik dashboard
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - app-network
 
   # Monitoring (optional)
   prometheus:
@@ -116,6 +92,21 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
     volumes:
       - grafana_data:/var/lib/grafana
+    networks:
+      - app-network
+
+  seed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    depends_on:
+      reservasdb:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://reservasdb:27017/restaurant-reservations
+    command: npm run seed
     networks:
       - app-network
 
