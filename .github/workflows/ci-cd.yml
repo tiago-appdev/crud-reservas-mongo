@@ -94,7 +94,7 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_PAT }}
+        password: ${{ secrets.BUILD }}
     
     - name: Extract metadata
       id: meta
