@@ -531,7 +531,7 @@ Cada integrante del equipo contribuyó desde sus fortalezas, permitiendo un desa
 - [**María Ozuna**](https://github.com/MariaOzuna) – *Diseño de Interfaz & UX*: Responsable del diseño visual de la aplicación y la experiencia de usuario. Su trabajo aseguró una interfaz clara y accesible.
 - [**Tiago Ibarrola**](https://github.com/tiago-appdev) – *DevOps & Organización Técnica*: Estructuró el pipeline CI/CD, creó los scripts de automatización con Docker y GitHub Actions, y dio soporte técnico al equipo. También lideró la integración con servicios externos.
 - [**Dario Skidelsky**](https://github.com/darioque) – *Backend Principal & Arquitectura*: Desarrolló gran parte de la lógica del backend y se ocupó de los endpoints, modelos y middleware. Su conocimiento técnico fue clave para resolver cuellos de botella.
-- [**Maximiliano Pereyra**](https://github.com/maxip98) – *Frontend & Testing*: Implementó vistas en Pug y lógica de cliente en JS. Además, colaboró en la escritura de tests y ayudó a cubrir tareas faltantes en diferentes momentos del proyecto.
+- [**Maximiliano Pereyra**](https://github.com/maxip98) – *Frontend & Testing*: Implementó lógica de cliente en JS. Además, colaboró en la escritura de tests y ayudó a cubrir tareas faltantes en diferentes momentos del proyecto.
 
 ### Conclusión General
 
