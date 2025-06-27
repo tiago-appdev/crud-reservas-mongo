@@ -527,11 +527,11 @@ Este proyecto nos permitió poner en práctica múltiples herramientas y concept
 
 Cada integrante del equipo contribuyó desde sus fortalezas, permitiendo un desarrollo equilibrado y ágil:
 
-- **Carolina Amarfil** – *Scrum Master & Documentación Técnica*: facilitó las reuniones, organizó los tiempos y se encargó de mantener actualizada la documentación funcional y técnica. También apoyó tareas de testing y conexión entre frontend y backend.
-- **María** – *Diseño de Interfaz & UX*: responsable del diseño visual de la aplicación y la experiencia de usuario. Su trabajo aseguró una interfaz clara y accesible.
-- **Tiago** – *DevOps & Organización Técnica*: estructuró el pipeline CI/CD, creó los scripts de automatización con Docker y GitHub Actions, y dio soporte técnico al equipo. También lideró la integración con servicios externos.
-- **Dario** – *Backend Principal & Arquitectura*: desarrolló gran parte de la lógica del backend y se ocupó de los endpoints, modelos y middleware. Su conocimiento técnico fue clave para resolver cuellos de botella.
-- **Maxi** – *Frontend & Testing*: implementó vistas en Pug y lógica de cliente en JS. Además, colaboró en la escritura de tests y ayudó a cubrir tareas faltantes en diferentes momentos del proyecto.
+- [**Carolina Amarfil**](https://github.com/caroamarfil) – *Scrum Master & Documentación Técnica*: Facilitó las reuniones, organizó los tiempos y se encargó de mantener actualizada la documentación funcional y técnica. También apoyó tareas de testing y conexión entre frontend y backend.
+- [**María Ozuna**](https://github.com/MariaOzuna) – *Diseño de Interfaz & UX*: Responsable del diseño visual de la aplicación y la experiencia de usuario. Su trabajo aseguró una interfaz clara y accesible.
+- [**Tiago Ibarrola**](https://github.com/tiago-appdev) – *DevOps & Organización Técnica*: Estructuró el pipeline CI/CD, creó los scripts de automatización con Docker y GitHub Actions, y dio soporte técnico al equipo. También lideró la integración con servicios externos.
+- [**Dario Skidelsky**](https://github.com/darioque) – *Backend Principal & Arquitectura*: Desarrolló gran parte de la lógica del backend y se ocupó de los endpoints, modelos y middleware. Su conocimiento técnico fue clave para resolver cuellos de botella.
+- [**Maximiliano Pereyra**](https://github.com/maxip98) – *Frontend & Testing*: Implementó vistas en Pug y lógica de cliente en JS. Además, colaboró en la escritura de tests y ayudó a cubrir tareas faltantes en diferentes momentos del proyecto.
 
 ### Conclusión General
 
