@@ -3,7 +3,9 @@
 [![CI/CD Pipeline](https://github.com/tiago-appdev/crud-reservas-mongo/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/tiago-appdev/crud-reservas-mongo/actions/workflows/ci-cd.yml)
 ![Version](https://img.shields.io/github/v/release/tiago-appdev/crud-reservas-mongo)
 
-Este proyecto es un sistema de reservas para un restaurante implementado con prácticas DevOps modernas, incluyendo CI/CD, containerización, monitoreo y deployment automatizado.
+Este proyecto es una aplicación web completa para la gestión de reservas en un restaurante. Permite a los usuarios registrarse, iniciar sesión, consultar disponibilidad de mesas, realizar reservas y gestionarlas. El sistema incluye un panel administrativo con reportes, autenticación basada en roles (cliente/admin), validaciones robustas y notificaciones por correo electrónico.
+
+A nivel técnico, se integra un enfoque DevOps con CI/CD, Docker multi-stage, testing automatizado, monitoreo opcional con Prometheus/Grafana y despliegue continuo en plataformas como Render o mediante contenedores.
 
 ## 🏗️ Arquitectura del Sistema
 
@@ -34,8 +36,12 @@ Este proyecto es un sistema de reservas para un restaurante implementado con pr�
 - [Deployment](#deployment)
 - [Monitoreo y Health Checks](#monitoreo-y-health-checks)
 - [Testing](#testing)
-- [API Documentation](#api-documentation)
+- [API Documentation](#-api-documentation)
 - [Troubleshooting](#troubleshooting)
+- [Contribución](#-contribución)
+- [Licencia](#-licencia)
+- [Métricas del Proyecto](#-métricas-del-proyecto)
+- [Conclusiones y Roles del Equipo](#conclusiones-y-roles-del-equipo)
 
 ## 🚀 Tecnologías
 
@@ -67,7 +73,7 @@ Este proyecto es un sistema de reservas para un restaurante implementado con pr�
 ### Requisitos Previos
 
 - [Node.js](https://nodejs.org/) 20+ y npm
-- [Docker](https://docker.com/) y Docker Compose
+- [Docker](https://docker.com/) y [Docker Compose](https://docs.docker.com/compose/)
 - [Git](https://git-scm.com/)
 - [MongoDB](https://mongodb.com/) (opcional para desarrollo local)
 
@@ -123,8 +129,14 @@ npm run seed
 ```
 
 ## 🛠️ Desarrollo Local
+El proyecto ofrece dos formas principales para desarrollar y probar localmente:
 
 ### Método 1: Desarrollo Tradicional
+En este método, se trabaja directamente con los servicios instalados en tu máquina:
+
+- Ejecutar MongoDB localmente
+- Iniciar la aplicación en modo desarrollo con `npm run dev`
+- Ideal para debugging y desarrollo rápido sin contenedores
 
 ```bash
 # Iniciar MongoDB localmente
@@ -134,7 +146,12 @@ mongod
 npm run dev
 ```
 
-### Método 2: Con Docker Compose (Recomendado)
+### Método 2: Con Docker Compose *(Recomendado)*
+Este método utiliza Docker y Docker Compose para levantar todos los servicios (app, base de datos, etc.) en contenedores aislados, simulando un entorno de producción y facilitando la reproducibilidad.
+
+- Construye y levanta contenedores para la app y MongoDB
+- Permite agregar perfiles adicionales, como monitoreo con Prometheus y Grafana
+- Uso de scripts npm para simplificar comandos Docker Compose
 
 ```bash
 # Construir e iniciar todos los servicios
@@ -166,21 +183,42 @@ Clientes:
 
 ## 🐳 Docker & Containerización
 
+Esta sección explica en detalle la arquitectura Docker y comandos útiles para gestionar los contenedores.
+
+### 🧱 Arquitectura de contenedores
+
+- `app`: Contenedor principal con la aplicación Node.js
+- `reservasdb`: Contenedor con MongoDB
+- (Opcional) `prometheus` y `grafana` para monitoreo
+
 ### Dockerfile Multi-stage
 
-El proyecto utiliza un Dockerfile multi-stage optimizado:
+El proyecto utiliza un Dockerfile multi-stage optimizado que incluye:
 
-- **Base**: Configuración común con Alpine Linux
-- **Development**: Incluye herramientas de desarrollo
+- **Base**: Alpine Linux + Node.js
+- **Development**: Incluye herramientas necesarias para desarrollo local
 - **Dependencies**: Solo dependencias de producción
 - **Build**: Ejecuta linting y tests
-- **Production**: Imagen final optimizada
+- **Production**: Imagen final optimizada para despliegue
 
-### Docker
-
+#### Comandos y tips Docker Compose.
+Para facilitar la gestión, hay scripts npm que envuelven comandos Docker Compose:
 ```bash
-# Para levantar el proyecto entero
+# Levantar proyecto con build
 docker-compose up --build -d
+
+# Ver logs de todos los servicios
+npm run docker:compose:logs
+
+# Detener y eliminar contenedores, volúmenes y redes
+npm run docker:compose:down
+
+# Acceder a la consola del contenedor app
+docker-compose exec app sh
+
+# Ver estado y recursos de contenedores
+docker-compose ps
+docker stats
 ```
 
 ## ⚙️ CI/CD Pipeline
@@ -482,3 +520,20 @@ Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE](./LICENSE) pa
 - **Docker Image Size**: <150MB
 - **Build Time**: <5 minutes
 - **Deployment Time**: <2 minutes
+
+## Conclusiones y Roles del Equipo
+
+Este proyecto nos permitió poner en práctica múltiples herramientas y conceptos vinculados al desarrollo moderno de software, integrando tanto aspectos técnicos como colaborativos. A lo largo del trabajo se abordaron buenas prácticas de desarrollo, despliegue automatizado, testing, monitoreo, documentación y trabajo en equipo.
+
+Cada integrante del equipo contribuyó desde sus fortalezas, permitiendo un desarrollo equilibrado y ágil:
+
+- **Carolina Amarfil** – *Scrum Master & Documentación Técnica*: facilitó las reuniones, organizó los tiempos y se encargó de mantener actualizada la documentación funcional y técnica. También apoyó tareas de testing y conexión entre frontend y backend.
+- **María** – *Diseño de Interfaz & UX*: responsable del diseño visual de la aplicación y la experiencia de usuario. Su trabajo aseguró una interfaz clara y accesible.
+- **Tiago** – *DevOps & Organización Técnica*: estructuró el pipeline CI/CD, creó los scripts de automatización con Docker y GitHub Actions, y dio soporte técnico al equipo. También lideró la integración con servicios externos.
+- **Dario** – *Backend Principal & Arquitectura*: desarrolló gran parte de la lógica del backend y se ocupó de los endpoints, modelos y middleware. Su conocimiento técnico fue clave para resolver cuellos de botella.
+- **Maxi** – *Frontend & Testing*: implementó vistas en Pug y lógica de cliente en JS. Además, colaboró en la escritura de tests y ayudó a cubrir tareas faltantes en diferentes momentos del proyecto.
+
+### Conclusión General
+
+El enfoque DevOps nos permitió experimentar una forma moderna de construir, testear y desplegar software de forma colaborativa. Pudimos aplicar integración continua, testing automatizado, containerización y monitoreo, entendiendo el valor que aportan estas prácticas a proyectos reales. Más allá de los desafíos técnicos, logramos consolidar un producto funcional, bien documentado y desplegable en cualquier entorno.
+
